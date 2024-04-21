@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Oswald:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    #birthdayLabel {
+      margin-bottom: 0.4rem;
+      font-size: 1rem;
+      font-family: "Oswald", sans-serif;
+      background-color: #fff;
+      padding: 0.2rem 0.4rem;
+      font-weight: 100;
+      letter-spacing: 0.05rem;
+    }
+    .hero {
+      height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    #text {
+      font-size: 1.4rem;
+    }
+    #birthday {
+      all: unset;
+      border: 1px dashed #000;
+      padding: 0.4rem 1.4rem;
+      font-size: 1.2rem;
+      font-family: "League Gothic", sans-serif;
+    }
+    #resultElement {
+      margin-top: 0.3rem;
+      font-size: 2rem;
+      opacity: 0;
+      font-family: "Oswald", sans-serif;
+      transition: opacity 0.8s ease;
+    }
+  </style>
+  <body>
+    <div class="hero">
+      <label for="birthday" id="birthdayLabel"
+        >Inky Pinky Ponly: How Old Are You?</label
+      >
+      <input
+        type="date"
+        id="birthday"
+        name="birthday"
+        onchange="calculateAge()"
+      />
+      <div id="resultElement">Fake text</div>
+    </div>
+  </body>
+  <script>
+    function calculateAge() {
+      const dateInput = document.getElementById("birthday");
+      const resultElement = document.getElementById("resultElement");
+
+      userinput = dateInput.value;
+      var dob = new Date(userinput);
+      var dobYear = dob.getYear();
+      var dobMonth = dob.getMonth();
+      var dobDate = dob.getDate();
+
+      var now = new Date();
+      var currentYear = now.getYear();
+      var currentMonth = now.getMonth();
+      var currentDate = now.getDate();
+
+      // Condition to check if future date is selected or not.
+      if (now - dob <= 0 || userinput == null || userinput == "") {
+        resultElement.innerHTML = "Please enter a valid date!";
+        resultElement.style.opacity = 1;
+        return;
+      }
+
+      let yearAge = currentYear - dobYear;
+
+      if (currentMonth >= dobMonth) var monthAge = currentMonth - dobMonth;
+      else {
+        yearAge--;
+        var monthAge = 12 + currentMonth - dobMonth;
+      }
+
+      if (currentDate >= dobDate) var dateAge = currentDate - dobDate;
+      else {
+        monthAge--;
+        var dateAge = 31 + currentDate - dobDate;
+        if (monthAge < 0) {
+          monthAge = 11;
+          yearAge--;
+        }
+      }
+      const ageString =
+        yearAge +
+        ' <span id="text"> years </span> ' +
+        monthAge +
+        ' <span id="text"> months </span> ' +
+        dateAge +
+        ' <span id="text"> days Old. </span>';
+      resultElement.style.opacity = 1;
+      resultElement.innerHTML = ageString;
+    }
+  </script>
+</html>
