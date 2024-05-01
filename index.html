@@ -10,6 +10,14 @@
       href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Oswald:wght@200..700&display=swap"
       rel="stylesheet"
     />
+    <meta property="og:title" content="Age Calculator" />
+    <meta property="og:type" content="tool" />
+    <meta
+      property="og:image"
+      content="http://euro-travel-example.com/thumbnail.jpg"
+    />
+    <meta property="og:url" content="./index.html" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <style>
     * {
@@ -60,17 +68,34 @@
         type="date"
         id="birthday"
         name="birthday"
-        onchange="calculateAge()"
+        onchange="calculateAgeUponLoad()"
       />
       <div id="resultElement">Fake text</div>
     </div>
   </body>
   <script>
-    function calculateAge() {
-      const dateInput = document.getElementById("birthday");
-      const resultElement = document.getElementById("resultElement");
+    calculateAgeUponLoad();
 
-      userinput = dateInput.value;
+    function calculateAgeUponLoad() {
+      var localDate = localStorage.getItem("birthday");
+      var userinput = document.getElementById("birthday").value;
+
+      if (localDate != null) {
+        if (userinput != "") {
+          if (userinput != localDate) dateSelected = userinput;
+        } else {
+          dateSelected = localDate;
+        }
+        localStorage.setItem("birthday", dateSelected);
+        calculateAge(dateSelected);
+      } else if (userinput != "") {
+        localStorage.setItem("birthday", userinput);
+        calculateAge(userinput);
+      }
+    }
+
+    function calculateAge(userinput) {
+      const resultElement = document.getElementById("resultElement");
       var dob = new Date(userinput);
       var dobYear = dob.getYear();
       var dobMonth = dob.getMonth();
