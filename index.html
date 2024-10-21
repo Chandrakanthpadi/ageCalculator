@@ -58,7 +58,8 @@
       font-family: "Oswald", sans-serif;
       transition: opacity 0.8s ease;
     }
-    #ageStored {
+    #ageStored,
+    #totalDays {
       font-family: "Oswald", sans-serif;
     }
   </style>
@@ -74,6 +75,7 @@
         onchange="calculateAgeUponLoad()"
       />
       <div id="resultElement">Fake text</div>
+      <div id="totalDays">Fake text</div>
       <div id="ageStored"></div>
     </div>
   </body>
@@ -97,7 +99,7 @@
         } else {
           dateSelected = localDate;
         }
-        ageStored.innerHTML = "Age selected: " + formatDate(dateSelected);
+        ageStored.innerHTML = "Date selected: " + formatDate(dateSelected);
         localStorage.setItem("birthday", dateSelected);
         calculateAge(dateSelected);
       } else if (userinput != "") {
@@ -151,6 +153,10 @@
         ' <span id="text"> days Old. </span>';
       resultElement.style.opacity = 1;
       resultElement.innerHTML = ageString;
+
+      var days = yearAge * 365 + monthAge * 30 + dateAge;
+      const totalDays = document.getElementById("totalDays");
+      totalDays.innerHTML = `Spent ${days} days under the sky.`;
     }
   </script>
 </html>
